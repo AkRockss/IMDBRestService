@@ -1,13 +1,11 @@
 ﻿using IMDBRestService.Contexts;
 using IMDBRestService.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace IMDBRestService.Manager
 {
-    public class IMDBManager 
+    public class IMDBManager
     {
         private IMDBContext _context;
 
@@ -23,35 +21,36 @@ namespace IMDBRestService.Manager
 
         //NAMEBASIC
 
-        public IEnumerable<NameBasic> GetAll(string substring)
+        public IEnumerable<NameBasic> GetAll(int substring)
         {
-            IEnumerable<NameBasic> nameBasics = from nameBasic in _context.NameBasicData
-                                                where (substring == null || nameBasic.nconst.Contains(substring))
+            IEnumerable<NameBasic> nameBasics = from nameBasic in _context.Name_Basic
+                                                where substring == null || nameBasic.nconst.Equals(substring)
                                                    select nameBasic;
             return nameBasics;
         }
 
-    
 
         public IEnumerable<NameBasic> Add(NameBasic nameBasics)
         {
-             
-            _context.NameBasicData.Add(nameBasics);
+            _context.Name_Basic.Add(nameBasics);
             _context.SaveChanges();
 
             return new List<NameBasic>();
         }
 
 
-        public NameBasic GetByNconst(string nconst)
+        public NameBasic GetByNconst(int nconst)
         {
-            //The find method looks for the primary key (id)
-            return _context.NameBasicData.Find(nconst);
+            return _context.Name_Basic.Find(nconst);
         }
 
 
-        //
+        //TitleAkas
 
+        public TitleAkas GetByTitleId(int titleId)
+        {
+            return _context.Title_Akas.Find(titleId);
+        }
 
 
     }
